@@ -1,0 +1,65 @@
+/* ===================================================================
+   THEME TOKENS — edit ONLY this :root block to re-theme the whole deck.
+   The SAME token vocabulary as the `slides` (Slidev) and `webdeck` skills,
+   so a brand looks identical across all of them. This deck's theme is
+   "electric bolt" — deep space indigo with a sky→violet lightning accent,
+   drawn from the ⚡ Bolt brand. (The ThemeLab slide rewrites these values
+   live at runtime — that's the demo.)
+   =================================================================== */
+:root {
+  /* Surfaces */
+  --bg: #05060c;
+  --bg-grad-1: rgba(97, 125, 255, 0.13);
+  --bg-grad-2: rgba(168, 110, 255, 0.09);
+  --surface: rgba(255, 255, 255, 0.045);
+  --surface-2: rgba(255, 255, 255, 0.07);
+
+  /* Ink */
+  --fg: #f2f5ff;
+  --fg-muted: #99a3c0;
+  --fg-faint: #5e6883;
+
+  /* Hairlines */
+  --hair: rgba(163, 183, 255, 0.14);
+  --hair-2: rgba(163, 183, 255, 0.07);
+
+  /* Accent — ONE accent. May be a 2–4 stop gradient within ~80° of hue. */
+  --primary: #7c9bff;
+  --accent: linear-gradient(
+    115deg,
+    #7fd8ff 0%,
+    #6ea0ff 40%,
+    #8b7bff 72%,
+    #b47bff 100%
+  );
+  --accent-ink: #060a1f;
+
+  /* Radius */
+  --radius: 20px;
+  --radius-sm: 12px;
+  --radius-lg: 26px;
+
+  /* Depth */
+  --shadow: 0 50px 120px -50px rgba(0, 0, 0, 0.92);
+  --glow: 0 30px 90px -40px rgba(110, 140, 255, 0.55);
+
+  /* Type */
+  --font-head: 'Space Grotesk', 'Inter', -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Motion */
+  --dur: 0.4s;
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Atmosphere */
+  --grain: 0.03;
+  --vignette: rgba(0, 0, 0, 0.26);
+
+  /* Responsive gutter — fluid side / vertical padding */
+  --gutter: clamp(28px, 6vw, 120px);
+  --gutter-y: clamp(40px, 8vh, 96px);
+}
