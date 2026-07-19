@@ -44,7 +44,7 @@ User feedback v1: "C grade — too text-heavy. Online demos looked cooler with i
 
 ## Status: DONE (v2 verified A+ pass). Remaining ideas if user wants more:
   - KeycapDemo (auto-pressing key row) on slide 10; Signal/Reactor screenshots; deploy somewhere
-  - Not committed/pushed — user hasn't asked
+  - LANDED: PR #1 squash-merged to main 2026-07-18 (commit db12aff)
 
 ## v2 slide order (31) — self-reference claims that MUST stay true
 
