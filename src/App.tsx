@@ -14,9 +14,15 @@ import Comparison from './components/Comparison';
 import Contrast from './components/Contrast';
 import CountUp from './components/CountUp';
 import Cover from './components/Cover';
+import CommandStage from './components/CommandStage';
+import Constellation from './components/Constellation';
 import ElectricField from './components/ElectricField';
 import Globe from './components/Globe';
+import InkAnchors from './components/InkAnchors';
+import KeycapDemo from './components/KeycapDemo';
 import LiveApp from './components/LiveApp';
+import LivePulse from './components/LivePulse';
+import MorphReveal from './components/MorphReveal';
 import PromptMovie from './components/PromptMovie';
 import ResponsivePlayground from './components/ResponsivePlayground';
 import Marquee from './components/Marquee';
@@ -38,17 +44,17 @@ import VisualDashboard from './components/VisualDashboard';
 
 /* ══════════════════════════════════════════════════════════════════════
    BOLT SLIDES — THE INTERACTIVE TOUR
-   A deck about the deck engine, built in the deck engine. 33 slides;
-   every component in src/components appears live, every engine feature
-   (builds, notes, presenter, annotations, grid, deep links, theming) is
-   both used and explained, and four custom components (ElectricField,
-   PromptMovie, LiveApp, ResponsivePlayground, plus ThemeLab/RepoStars)
-   prove the system is extensible. Facts are the repo's own: 29 library
-   components, 3 dependencies, 9 theme families, MIT.
+   A deck about the deck engine, built in the deck engine. 39 slides;
+   every library component appears live, every engine feature is used
+   and explained, and a dozen custom demos (ElectricField, PromptMovie,
+   MorphReveal, KeycapDemo, InkAnchors, LiveApp, LivePulse,
+   ResponsivePlayground, Constellation, CommandStage, ThemeLab,
+   RepoStars) prove the kit is a floor, not a ceiling.
+   Facts: 29 library components, 3 dependencies, 9 theme families, MIT.
    Self-referential numbers that must stay true if slides move:
-   Chat says "slide 6"; Bento tile says "#12"; presenter mock says
-   "Slide 11 / 33"; Accordion says "eight slides from now" (→ ThemeLab);
-   PromptMovie badge and Chat say "33 slides".
+   Chat says "slide 7"; Bento tile says "#14"; presenter mock says
+   "Slide 13 / 39"; Accordion says "ten slides from now" (→ ThemeLab);
+   PromptMovie badge and Chat say "39 slides".
    ══════════════════════════════════════════════════════════════════════ */
 
 const panel = (extra = 0.22): React.CSSProperties => ({
@@ -210,7 +216,7 @@ export default function App() {
         nav="Agenda"
         notes="Orient the room in thirty seconds. The hints on the right are the payoff of each stop."
         kicker="The tour"
-        title="Five stops, thirty-three slides."
+        title="Five stops, thirty-nine slides."
         items={[
           { title: 'Why slides should be apps', hint: 'now' },
           { title: 'The engine', hint: 'builds · notes · ink' },
@@ -246,10 +252,31 @@ export default function App() {
         }}
       />
 
-      {/* 6 · Chat — the real workflow, one message per click */}
+      {/* 6 · MorphReveal — drag the edge of reality */}
+      <Slide
+        nav="Drag it"
+        notes="Say nothing. Let the handle breathe, then invite someone to drag. Left is every all-hands they've sat through. Right is this room."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Feel the difference
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Drag the edge of <span className="accent-text">reality.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <MorphReveal />
+        </Reveal>
+      </Slide>
+
+      {/* 7 · Chat — the real workflow, one message per click */}
       <Chat
         nav="The exchange"
-        notes="Advance one message at a time — the Chat component turns every message into a build. Pause after ‘You’re on slide 5.’"
+        notes="Advance one message at a time — the Chat component turns every message into a build. Pause after ‘You’re on slide 7.’"
         kicker="The workflow"
         title="One prompt. This deck."
         name="bolt.new"
@@ -260,12 +287,12 @@ export default function App() {
           },
           {
             from: 'ai',
-            text: 'Done — themed the tokens electric indigo, authored 33 slides, wired the click-builds, and left you speaker notes.',
+            text: 'Done — themed the tokens electric indigo, authored 39 slides, wired the click-builds, and left you speaker notes.',
           },
           { from: 'user', text: 'Prove it.' },
           {
             from: 'ai',
-            text: 'You’re on slide 6 of it. Press P — the notes are waiting.',
+            text: 'You’re on slide 7 of it. Press P — the notes are waiting.',
           },
         ]}
       />
@@ -346,7 +373,32 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 11 · Split + BrowserFrame — presenter mode */}
+      {/* 12 · KeycapDemo — muscle memory as a light show */}
+      <Slide
+        center
+        nav="Key caps"
+        notes="Let it auto-cycle once. Then click P on the caps, and actually press P on the keyboard — double punch."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12 }}>
+            Muscle memory
+          </div>
+          <h2
+            className="headline"
+            style={{
+              marginInline: 'auto',
+              marginBottom: 'clamp(22px,4vh,36px)',
+            }}
+          >
+            Six keys. <span className="accent-text">Whole show.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <KeycapDemo />
+        </Reveal>
+      </Slide>
+
+      {/* 13 · Split + BrowserFrame — presenter mode */}
       <Split
         flip
         nav="Presenter"
@@ -368,7 +420,7 @@ export default function App() {
                 width: '100%',
               }}
             >
-              <BrowserFrame url="localhost:5173/?presenter#11">
+              <BrowserFrame url="localhost:5173/?presenter#13">
                 <div
                   style={{
                     padding: 16,
@@ -398,7 +450,7 @@ export default function App() {
                     >
                       07:42
                     </span>
-                    <span className="foot">Slide 11 / 33</span>
+                    <span className="foot">Slide 13 / 39</span>
                   </div>
                   <div
                     style={{
@@ -450,7 +502,7 @@ export default function App() {
         }
       />
 
-      {/* 12 · Bento — engine features (with a live API fetch) */}
+      {/* 14 · Bento — engine features (with a live API fetch) */}
       <Bento
         nav="Under the hood"
         notes="The star count in the accent tile was fetched from the GitHub API when this slide loaded — slides are apps, so a slide can call an API."
@@ -473,7 +525,7 @@ export default function App() {
           },
           {
             k: 'Deep links',
-            fig: <span style={{ fontFamily: 'var(--font-mono)' }}>#12</span>,
+            fig: <span style={{ fontFamily: 'var(--font-mono)' }}>#14</span>,
             body: 'The URL hash tracks this slide.',
             c: 3,
           },
@@ -493,7 +545,28 @@ export default function App() {
         ]}
       />
 
-      {/* 13 · ResponsivePlayground — the no-fixed-canvas pitch, as a toy */}
+      {/* 15 · InkAnchors — content-anchored annotations made visible */}
+      <Slide
+        nav="Anchored ink"
+        notes="Watch the circle stay on revenue as the layout reflows laptop → tablet → phone. Then press A and draw something of your own."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Press A later — understand it now
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Ink that <span className="accent-text">rides the content.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <InkAnchors />
+        </Reveal>
+      </Slide>
+
+      {/* 16 · ResponsivePlayground — the no-fixed-canvas pitch, as a toy */}
       <Slide
         nav="No fixed canvas"
         notes="It breathes on its own — narrow, wide, narrow — until you grab the handle on the right edge. Grab it. Columns re-stack, the nav collapses to a burger, the readout tracks the px. Slideware clips; this reflows."
@@ -613,7 +686,28 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 17 · Split + TiltCard + VisualDashboard */}
+      {/* 20 · LivePulse — mid-talk audience input */}
+      <Slide
+        nav="Room pulse"
+        notes="Click a bar yourself, then invite the room. The total re-counts. This is the difference between presenting at people and presenting with them."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Audience as input
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Take the room’s <span className="accent-text">temperature.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <LivePulse />
+        </Reveal>
+      </Slide>
+
+      {/* 21 · Split + TiltCard + VisualDashboard */}
       <Split
         nav="Live visuals"
         notes="Hover the card — it tilts toward the cursor with a moving glare. The dashboard inside draws in: CountUp figures, sparkline, bars."
@@ -895,7 +989,7 @@ export default function App() {
       {/* 22 · Accordion — FAQ */}
       <Slide
         nav="Fair questions"
-        notes="Open only what the room asks about. The last answer sets up the theme lab eight slides from here."
+        notes="Open only what the room asks about. The last answer sets up the theme lab ten slides from here."
       >
         <Reveal>
           <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
@@ -919,11 +1013,11 @@ export default function App() {
                 },
                 {
                   title: 'Can I add my own components?',
-                  body: 'Encouraged. The kit is a floor, not a ceiling — only the engine and the token names are locked. This deck added two.',
+                  body: 'Encouraged. The kit is a floor, not a ceiling — only the engine and the token names are locked. This deck invents a dozen toys on purpose.',
                 },
                 {
                   title: 'What about my brand?',
-                  body: 'Every color, font, radius, and shadow is a token in one :root block. Eight slides from now, you’ll re-theme this deck live.',
+                  body: 'Every color, font, radius, and shadow is a token in one :root block. Ten slides from now, you’ll re-theme this deck live.',
                 },
               ]}
             />
@@ -1036,7 +1130,28 @@ export default function App() {
         ]}
       />
 
-      {/* 26 · SpotlightCards — principles */}
+      {/* 30 · Constellation — the system as a living graph */}
+      <Slide
+        nav="Constellation"
+        notes="Hover Deck, then Skill, then Yours. The graph is the argument: engine locked, library open, your components welcome."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            The system, mapped
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(16px,2.5vh,24px)' }}
+          >
+            Not a template. A <span className="accent-text">graph.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <Constellation />
+        </Reveal>
+      </Slide>
+
+      {/* 31 · SpotlightCards — principles */}
       <Slide
         nav="House rules"
         notes="Move the cursor across the cards — the glow follows it. Three rules the skill actually enforces."
@@ -1182,7 +1297,32 @@ export default function App() {
         }
       />
 
-      {/* 30 · ThemeLab — live re-theme (custom component) */}
+      {/* 35 · CommandStage — a palette inside a slide */}
+      <Slide
+        center
+        nav="Command"
+        notes="Click into the field and type. Arrow keys move; Enter runs. Keyboard events stay inside the palette — the deck doesn’t advance while you type."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12 }}>
+            Decks can host UI
+          </div>
+          <h2
+            className="headline"
+            style={{
+              marginInline: 'auto',
+              marginBottom: 'clamp(16px,3vh,26px)',
+            }}
+          >
+            A command palette. <span className="accent-text">On a slide.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <CommandStage />
+        </Reveal>
+      </Slide>
+
+      {/* 36 · ThemeLab — live re-theme (custom component) */}
       <Slide
         center
         nav="Theme lab"
@@ -1212,7 +1352,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 31 · Pricing — the MIT joke, played straight */}
+      {/* 37 · Pricing — the MIT joke, played straight */}
       <Pricing
         nav="Pricing"
         notes="Play it deadpan. The only dishonest thing on this slide is the badge — every tier is the same repo."
@@ -1257,7 +1397,7 @@ export default function App() {
         ]}
       />
 
-      {/* 32 · Quote */}
+      {/* 38 · Quote */}
       <Quote
         nav="Quote"
         notes="Read it slowly. It is the project’s whole thesis in three words."
@@ -1266,7 +1406,7 @@ export default function App() {
         role="github.com/stackblitz/bolt-slides"
       />
 
-      {/* 33 · Close — the Cover component, promoted to CTA */}
+      {/* 39 · Close — the Cover component, promoted to CTA */}
       <Cover
         nav="Close"
         notes="Make the ask and stop talking. Leave the URL on screen through questions — and let someone in the room press G to see everywhere you've been."
