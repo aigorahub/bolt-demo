@@ -107,8 +107,7 @@ export default function Constellation() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     fit();
-    const ro = new ResizeObserver(fit);
-    ro.observe(cv);
+    let ro: ResizeObserver | null = null;
 
     const probe = () => {
       const s = getComputedStyle(document.documentElement);
@@ -238,12 +237,19 @@ export default function Constellation() {
       if (!isStatic && !reduce) raf = requestAnimationFrame(draw);
     };
 
-    draw();
-    if (!isStatic && !reduce) raf = requestAnimationFrame(draw);
+    /* Resize clears the bitmap (width/height set). Still path must repaint. */
+    ro = new ResizeObserver(() => {
+      fit();
+      if (isStatic || reduce) draw();
+    });
+    ro.observe(cv);
+
+    /* one kick: draw paints still frame; animated path self-schedules */
+    raf = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(raf);
-      ro.disconnect();
+      ro?.disconnect();
       cv.removeEventListener('pointermove', onMove);
       cv.removeEventListener('pointerleave', onLeave);
     };
@@ -269,7 +275,7 @@ export default function Constellation() {
           background: 'var(--surface)',
           overflow: 'hidden',
           aspectRatio: '16 / 10',
-          boxShadow: 'var(--shadow-md)',
+          boxShadow: 'var(--shadow)',
         }}
       >
         <canvas

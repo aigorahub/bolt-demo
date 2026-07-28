@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 import CountUp from './CountUp';
@@ -19,7 +19,10 @@ export default function LivePulse() {
     Object.fromEntries(OPTIONS.map((o) => [o.id, o.seed]))
   );
   const [last, setLast] = useState<string | null>(null);
-  const [pulse, setPulse] = useState(0);
+  const seedTotal = OPTIONS.reduce((a, o) => a + o.seed, 0);
+  const [fromTotal, setFromTotal] = useState(seedTotal);
+  const [toTotal, setToTotal] = useState(seedTotal);
+  const prevTotal = useRef(seedTotal);
 
   /* ambient drift so the board feels alive even before clicks */
   useEffect(() => {
@@ -31,7 +34,6 @@ export default function LivePulse() {
         next[pick] = next[pick] + 1;
         return next;
       });
-      setPulse((p) => p + 1);
     }, 2400);
     return () => clearInterval(id);
   }, [isStatic, reduce]);
@@ -40,12 +42,19 @@ export default function LivePulse() {
     () => Object.values(votes).reduce((a, b) => a + b, 0),
     [votes]
   );
+
+  useEffect(() => {
+    if (total === prevTotal.current) return;
+    setFromTotal(prevTotal.current);
+    setToTotal(total);
+    prevTotal.current = total;
+  }, [total]);
+
   const max = Math.max(...Object.values(votes), 1);
 
   const cast = (id: string) => {
     setVotes((v) => ({ ...v, [id]: v[id] + 1 }));
     setLast(id);
-    setPulse((p) => p + 1);
   };
 
   return (
@@ -92,7 +101,12 @@ export default function LivePulse() {
               fontVariantNumeric: 'tabular-nums',
             }}
           >
-            <CountUp key={pulse} to={total} duration={550} />
+            <CountUp
+              key={`${fromTotal}-${toTotal}`}
+              from={fromTotal}
+              to={toTotal}
+              duration={550}
+            />
           </div>
           <div className="foot" style={{ margin: 0 }}>
             votes · click a bar
@@ -100,7 +114,7 @@ export default function LivePulse() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gap: 10 }}>
+      <div style={{ display: 'grid', gap: 10 }} role="group" aria-label="Room pulse options">
         {OPTIONS.map((o) => {
           const n = votes[o.id];
           const pct = Math.round((n / max) * 100);
@@ -110,6 +124,7 @@ export default function LivePulse() {
             <button
               key={o.id}
               type="button"
+              aria-pressed={on}
               onClick={(e) => {
                 e.stopPropagation();
                 cast(o.id);

@@ -1,27 +1,56 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
 /* Drag-to-compare: left is dead slideware (bullets, clipped canvas), right is a
-   live mini-deck. Same idea as a photo before/after, but the "after" runs. */
+   live mini-deck. Same idea as a photo before/after, but the "after" runs.
+   Auto-breathe updates a ref + DOM style (not React state every frame). */
 export default function MorphReveal() {
   const { isStatic } = useDeck();
   const reduce = useReducedMotion();
   const frame = useRef<HTMLDivElement>(null);
-  const [pct, setPct] = useState(isStatic || reduce ? 58 : 42);
+  const before = useRef<HTMLDivElement>(null);
+  const handle = useRef<HTMLDivElement>(null);
+  const startPct = isStatic || reduce ? 58 : 42;
+  const [pct, setPct] = useState(startPct);
+  const pctRef = useRef(startPct);
   const drag = useRef(false);
+  const paused = useRef(false);
 
-  const setFromX = useCallback((clientX: number) => {
-    const el = frame.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    if (!r.width) return;
-    const next = ((clientX - r.left) / r.width) * 100;
-    setPct(Math.min(92, Math.max(8, next)));
+  const paint = useCallback((next: number) => {
+    const clamped = Math.min(92, Math.max(8, next));
+    pctRef.current = clamped;
+    if (before.current) {
+      before.current.style.clipPath = `inset(0 ${100 - clamped}% 0 0)`;
+    }
+    if (handle.current) {
+      handle.current.style.left = `${clamped}%`;
+    }
   }, []);
 
+  const commit = useCallback(
+    (next: number) => {
+      const clamped = Math.min(92, Math.max(8, next));
+      paint(clamped);
+      setPct(clamped);
+    },
+    [paint]
+  );
+
+  const setFromX = useCallback(
+    (clientX: number) => {
+      const el = frame.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (!r.width) return;
+      commit(((clientX - r.left) / r.width) * 100);
+    },
+    [commit]
+  );
+
+  /* Drag is interaction, not decoration — keep it even under reduced motion. */
   useEffect(() => {
-    if (isStatic || reduce) return;
+    if (isStatic) return;
     const onMove = (e: PointerEvent) => {
       if (!drag.current) return;
       setFromX(e.clientX);
@@ -35,44 +64,29 @@ export default function MorphReveal() {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
     };
-  }, [isStatic, reduce, setFromX]);
+  }, [isStatic, setFromX]);
 
-  /* auto-breathe the handle so the room notices without a demo script */
+  /* auto-breathe via rAF → DOM only; React state stays quiet until drag ends */
   useEffect(() => {
     if (isStatic || reduce) return;
     let t = 0;
     let id = 0;
-    let paused = false;
     const tick = () => {
       t += 0.016;
-      if (!paused && !drag.current) {
-        const wave = 42 + Math.sin(t * 0.55) * 14;
-        setPct(wave);
+      if (!paused.current && !drag.current) {
+        paint(42 + Math.sin(t * 0.55) * 14);
       }
       id = requestAnimationFrame(tick);
     };
     id = requestAnimationFrame(tick);
-    const el = frame.current;
-    const pause = () => {
-      paused = true;
-    };
-    const resume = () => {
-      paused = false;
-    };
-    el?.addEventListener('pointerdown', pause);
-    el?.addEventListener('pointerleave', resume);
-    return () => {
-      cancelAnimationFrame(id);
-      el?.removeEventListener('pointerdown', pause);
-      el?.removeEventListener('pointerleave', resume);
-    };
-  }, [isStatic, reduce]);
+    return () => cancelAnimationFrame(id);
+  }, [isStatic, reduce, paint]);
 
   return (
     <div
       ref={frame}
-      role="img"
-      aria-label="Drag to compare a static slide with a live deck slide"
+      role="group"
+      aria-label="Compare a static slide with a live deck slide"
       style={{
         position: 'relative',
         width: '100%',
@@ -85,32 +99,63 @@ export default function MorphReveal() {
         touchAction: 'none',
         userSelect: 'none',
         background: 'var(--surface)',
-        boxShadow: 'var(--shadow-lg)',
+        boxShadow: 'var(--shadow)',
       }}
     >
-      {/* AFTER (live) — full underlay */}
       <div style={{ position: 'absolute', inset: 0 }}>
         <LiveFace />
       </div>
 
-      {/* BEFORE (dead) — same full size, clip-path so both sides stay aligned */}
       <div
+        ref={before}
         style={{
           position: 'absolute',
           inset: 0,
           clipPath: `inset(0 ${100 - pct}% 0 0)`,
-          borderRight: '1px solid color-mix(in srgb, var(--primary) 55%, transparent)',
         }}
       >
         <DeadFace />
       </div>
 
-      {/* Handle */}
       <div
+        ref={handle}
+        role="slider"
+        tabIndex={0}
+        aria-valuemin={8}
+        aria-valuemax={92}
+        aria-valuenow={Math.round(pct)}
+        aria-label="Reveal balance between slideware and live deck"
         onPointerDown={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
           drag.current = true;
-          (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+          paused.current = true;
+          (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
           setFromX(e.clientX);
+        }}
+        onPointerUp={() => {
+          drag.current = false;
+          setPct(pctRef.current);
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            paused.current = true;
+            commit(pctRef.current - 4);
+          } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            paused.current = true;
+            commit(pctRef.current + 4);
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            paused.current = true;
+            commit(8);
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            paused.current = true;
+            commit(92);
+          }
         }}
         style={{
           position: 'absolute',
@@ -124,6 +169,7 @@ export default function MorphReveal() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          outline: 'none',
         }}
       >
         <div
@@ -144,7 +190,7 @@ export default function MorphReveal() {
             color: 'var(--accent-ink)',
             display: 'grid',
             placeItems: 'center',
-            boxShadow: 'var(--shadow-md)',
+            boxShadow: 'var(--shadow)',
             fontFamily: 'var(--font-mono)',
             fontSize: 12,
             fontWeight: 700,
@@ -171,7 +217,7 @@ function Badge({
   active,
 }: {
   side: 'left' | 'right';
-  children: React.ReactNode;
+  children: ReactNode;
   active: boolean;
 }) {
   return (
@@ -207,28 +253,41 @@ function DeadFace() {
       style={{
         height: '100%',
         width: '100%',
-        padding: 'clamp(28px,5%,48px)',
+        padding: 'clamp(20px,4%,48px)',
         background:
           'linear-gradient(160deg, #1a1d24 0%, #12141a 60%, #0e1015 100%)',
         color: '#c8cdd6',
         fontFamily: 'Arial, Helvetica, sans-serif',
         display: 'flex',
         flexDirection: 'column',
-        gap: 18,
+        gap: 14,
       }}
     >
-      <div style={{ fontSize: 13, letterSpacing: 2, textTransform: 'uppercase', opacity: 0.55 }}>
+      <div
+        style={{
+          fontSize: 13,
+          letterSpacing: 2,
+          textTransform: 'uppercase',
+          opacity: 0.55,
+        }}
+      >
         Q3 All-Hands
       </div>
-      <div style={{ fontSize: 'clamp(28px,3.4vw,42px)', fontWeight: 700, color: '#eef1f6' }}>
+      <div
+        style={{
+          fontSize: 'clamp(24px,3.2vw,42px)',
+          fontWeight: 700,
+          color: '#eef1f6',
+        }}
+      >
         Our Strategy Going Forward
       </div>
       <ul
         style={{
-          margin: '8px 0 0',
+          margin: '4px 0 0',
           paddingLeft: 22,
-          fontSize: 18,
-          lineHeight: 1.75,
+          fontSize: 'clamp(14px,1.6vw,18px)',
+          lineHeight: 1.7,
           opacity: 0.85,
         }}
       >
@@ -245,6 +304,8 @@ function DeadFace() {
           opacity: 0.4,
           display: 'flex',
           justifyContent: 'space-between',
+          gap: 8,
+          flexWrap: 'wrap',
         }}
       >
         <span>Confidential · Do not distribute</span>
@@ -259,22 +320,30 @@ function LiveFace() {
     <div
       style={{
         height: '100%',
-        padding: 'clamp(22px,4%,40px)',
+        padding: 'clamp(16px,3.5%,40px)',
         display: 'grid',
-        gridTemplateColumns: '1.1fr 0.9fr',
-        gap: 20,
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
+        gap: 16,
+        alignContent: 'center',
         background:
           'radial-gradient(120% 100% at 70% 10%, color-mix(in srgb, var(--primary) 22%, transparent), transparent 55%), var(--bg)',
         color: 'var(--fg)',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 14 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          gap: 12,
+        }}
+      >
         <div className="kicker">Live · not a screenshot</div>
         <h3
           style={{
             margin: 0,
             fontFamily: 'var(--font-head)',
-            fontSize: 'clamp(26px,3.2vw,40px)',
+            fontSize: 'clamp(22px,3vw,40px)',
             fontWeight: 700,
             letterSpacing: '-0.03em',
             lineHeight: 1.1,
@@ -282,7 +351,15 @@ function LiveFace() {
         >
           Every slide is a <span className="accent-text">web page.</span>
         </h3>
-        <p style={{ margin: 0, color: 'var(--fg-muted)', fontSize: 15, maxWidth: 34 * 8, lineHeight: 1.5 }}>
+        <p
+          style={{
+            margin: 0,
+            color: 'var(--fg-muted)',
+            fontSize: 15,
+            maxWidth: 34 * 8,
+            lineHeight: 1.5,
+          }}
+        >
           Responsive. Interactive. Shared as a URL. The handle is the argument.
         </p>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 4 }}>
@@ -312,14 +389,23 @@ function LiveFace() {
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
-          minHeight: 0,
+          minHeight: 120,
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'baseline',
+          }}
+        >
           <span className="kicker" style={{ margin: 0 }}>
             live metric
           </span>
-          <span className="accent-text" style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+          <span
+            className="accent-text"
+            style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}
+          >
             +38%
           </span>
         </div>
@@ -329,7 +415,7 @@ function LiveFace() {
             display: 'flex',
             alignItems: 'flex-end',
             gap: 6,
-            minHeight: 80,
+            minHeight: 72,
           }}
         >
           {[40, 55, 48, 72, 66, 88, 80, 100].map((h, i) => (
@@ -348,7 +434,14 @@ function LiveFace() {
             />
           ))}
         </div>
-        <div style={{ height: 6, borderRadius: 3, background: 'var(--hair-2)', overflow: 'hidden' }}>
+        <div
+          style={{
+            height: 6,
+            borderRadius: 3,
+            background: 'var(--hair-2)',
+            overflow: 'hidden',
+          }}
+        >
           <div
             style={{
               width: '72%',

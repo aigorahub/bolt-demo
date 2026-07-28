@@ -297,7 +297,7 @@ export default function App() {
         ]}
       />
 
-      {/* 7 · BigNumber — the one drama beat */}
+      {/* 8 · BigNumber — the one drama beat */}
       <BigNumber
         nav="One"
         notes="Let the figure breathe. One prompt is the whole pitch: the skill file teaches any agent to theme, compose, and write the deck."
@@ -307,7 +307,7 @@ export default function App() {
         foot=".bolt/skills/slides/SKILL.md — read by Bolt, Claude Code, Cursor, Codex"
       />
 
-      {/* 8 · Section — Part one */}
+      {/* 9 · Section — Part one */}
       <Section
         nav="Part one"
         notes="Breathe. New chapter — the presenting machinery."
@@ -320,7 +320,7 @@ export default function App() {
         }
       />
 
-      {/* 9 · Steps — how it works */}
+      {/* 10 · Steps — how it works */}
       <Steps
         nav="How it works"
         notes="Walk left to right. The point: the chrome — dock, rail, presenter — exists before your first slide does."
@@ -342,7 +342,7 @@ export default function App() {
         ]}
       />
 
-      {/* 10 · Table — the real keymap */}
+      {/* 11 · Table — the real keymap */}
       <Slide
         nav="Keymap"
         notes="This slide is honest — press the keys while it’s up. G is the crowd-pleaser."
@@ -592,10 +592,10 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 14 · Section — Part two */}
+      {/* 17 · Section — Part two */}
       <Section
         nav="Part two"
-        notes="Chapter turn. The next eight slides are built from the library they describe."
+        notes="Chapter turn. The next ten slides are built from the library they describe."
         n={2}
         kicker="Part two"
         title={
@@ -605,7 +605,7 @@ export default function App() {
         }
       />
 
-      {/* 15 · Charts — bar, line, donut */}
+      {/* 18 · Charts — bar, line, donut */}
       <Slide
         nav="Charts"
         notes="All three chart types draw themselves in when the slide appears — SVG and CSS, no chart dependency. The bar data is the real component census."
@@ -663,7 +663,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 16 · LiveApp — a working product inside a slide */}
+      {/* 19 · LiveApp — a working product inside a slide */}
       <Slide
         nav="It runs"
         notes="Click the period and region controls — the numbers re-count and the charts replay their draw-in. A working prototype is a legal slide here; embed the real product when you have one."
@@ -738,7 +738,7 @@ export default function App() {
         }
       />
 
-      {/* 18 · StatGrid — the real inventory */}
+      {/* 22 · StatGrid — the real inventory */}
       <StatGrid
         nav="Inventory"
         notes="Three real numbers: 29 components in src/components, exactly three runtime dependencies, nine documented theme families. The figures count up on entry."
@@ -763,7 +763,7 @@ export default function App() {
         ]}
       />
 
-      {/* 19 · Timeline */}
+      {/* 23 · Timeline */}
       <Slide
         nav="Timeline"
         notes="The connector draws in, then milestones land one by one. This is the realistic schedule, not the aspirational one."
@@ -804,7 +804,7 @@ export default function App() {
         </div>
       </Slide>
 
-      {/* 20 · Comparison */}
+      {/* 24 · Comparison */}
       <Slide
         nav="Comparison"
         notes="The accent column is one prop — highlight={0}. The pptx filename usually gets the laugh; wait for it."
@@ -834,7 +834,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 21 · Tabs — the library, shelved */}
+      {/* 25 · Tabs — the library, shelved */}
       <Slide
         nav="The shelves"
         notes="Click through the shelves — or use ← → inside the tab bar; the deck won’t page while the bar has focus. The pill slides, panels cross-fade."
@@ -986,7 +986,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 22 · Accordion — FAQ */}
+      {/* 26 · Accordion — FAQ */}
       <Slide
         nav="Fair questions"
         notes="Open only what the room asks about. The last answer sets up the theme lab ten slides from here."
@@ -1025,7 +1025,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 23 · Split + CodeWindow — authoring */}
+      {/* 27 · Split + CodeWindow — authoring */}
       <Split
         flip
         nav="Authoring"
@@ -1066,7 +1066,7 @@ export default function App() {
         }
       />
 
-      {/* 24 · Section — Part three, with a full-bleed image */}
+      {/* 28 · Section — Part three, with a full-bleed image */}
       <Section
         nav="Part three"
         notes="Section takes an image prop — full-bleed under an automatic theme-correct scrim. This background is a hand-drawn SVG, not a photo."
@@ -1080,7 +1080,7 @@ export default function App() {
         image="/flare.svg"
       />
 
-      {/* 25 · Globe — a deck is a URL */}
+      {/* 29 · Globe — a deck is a URL */}
       <Globe
         nav="A deck is a URL"
         notes="Drag the globe — it spins. Canvas-drawn, dependency-free, and it reads its colors from the theme tokens like everything else."
@@ -1212,7 +1212,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 27 · Team — the agents */}
+      {/* 32 · Team — the agents */}
       <Team
         nav="Your agent"
         notes="No photos on purpose — the Team component draws initial avatars on the accent automatically. Any agent that can read a skill file can author a deck."
@@ -1226,7 +1226,7 @@ export default function App() {
         ]}
       />
 
-      {/* 28 · Marquee — roll call */}
+      {/* 33 · Marquee — roll call */}
       <Slide
         center
         nav="Roll call"
@@ -1284,7 +1284,7 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 29 · Section — Part four */}
+      {/* 34 · Section — Part four */}
       <Section
         nav="Part four"
         notes="Last chapter: theming, price, and the ask."

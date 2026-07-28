@@ -24,6 +24,7 @@ export default function InkAnchors() {
   const reduce = useReducedMotion();
   const [layout, setLayout] = useState<Layout>('desktop');
   const [drawn, setDrawn] = useState(isStatic || !!reduce);
+  const [userPicked, setUserPicked] = useState(false);
 
   useEffect(() => {
     if (isStatic || reduce) return;
@@ -34,7 +35,7 @@ export default function InkAnchors() {
 
   /* auto-cycle layouts so the room sees the reflow without a clicker script */
   useEffect(() => {
-    if (isStatic || reduce) return;
+    if (isStatic || reduce || userPicked) return;
     const id = window.setInterval(() => {
       setLayout((cur) => {
         const i = LAYOUTS.findIndex((l) => l.id === cur);
@@ -42,7 +43,7 @@ export default function InkAnchors() {
       });
     }, 3200);
     return () => clearInterval(id);
-  }, [isStatic, reduce]);
+  }, [isStatic, reduce, userPicked]);
 
   const w = LAYOUTS.find((l) => l.id === layout)!.width;
   const cols =
@@ -73,8 +74,10 @@ export default function InkAnchors() {
             <button
               key={l.id}
               type="button"
+              aria-pressed={on}
               onClick={(e) => {
                 e.stopPropagation();
+                setUserPicked(true);
                 setLayout(l.id);
               }}
               onKeyDown={(e) => {
@@ -114,7 +117,7 @@ export default function InkAnchors() {
             border: '1px solid var(--hair)',
             background: 'var(--surface)',
             padding: layout === 'phone' ? 14 : 20,
-            boxShadow: 'var(--shadow-md)',
+            boxShadow: 'var(--shadow)',
             position: 'relative',
           }}
         >

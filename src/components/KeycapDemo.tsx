@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
@@ -18,9 +18,11 @@ export default function KeycapDemo() {
   const reduce = useReducedMotion();
   const [active, setActive] = useState(0);
   const [pressed, setPressed] = useState(false);
+  const [userHeld, setUserHeld] = useState(false);
+  const pressTimers = useRef<number[]>([]);
 
   useEffect(() => {
-    if (isStatic || reduce) return;
+    if (isStatic || reduce || userHeld) return;
     let pressTimer: number | undefined;
     const id = window.setInterval(() => {
       setPressed(true);
@@ -33,7 +35,14 @@ export default function KeycapDemo() {
       clearInterval(id);
       if (pressTimer) clearTimeout(pressTimer);
     };
-  }, [isStatic, reduce]);
+  }, [isStatic, reduce, userHeld]);
+
+  useEffect(
+    () => () => {
+      pressTimers.current.forEach((t) => clearTimeout(t));
+    },
+    []
+  );
 
   const cur = KEYS[active];
 
@@ -66,14 +75,17 @@ export default function KeycapDemo() {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
+                setUserHeld(true);
                 setActive(i);
                 setPressed(true);
-                window.setTimeout(() => setPressed(false), 180);
+                const t = window.setTimeout(() => setPressed(false), 180);
+                pressTimers.current.push(t);
               }}
               onKeyDown={(e) => {
                 if (e.key === ' ' || e.key === 'Enter') e.stopPropagation();
               }}
               aria-pressed={on}
+              aria-label={`${k.key}: ${k.label}`}
               style={{
                 appearance: 'none',
                 border: 'none',
@@ -104,8 +116,8 @@ export default function KeycapDemo() {
                   boxShadow: down
                     ? '0 1px 0 var(--hair-2)'
                     : on
-                      ? 'var(--shadow-md), 0 0 0 1px color-mix(in srgb, var(--primary) 35%, transparent)'
-                      : '0 6px 0 color-mix(in srgb, var(--fg) 8%, transparent), var(--shadow-sm)',
+                      ? 'var(--shadow), 0 0 0 1px color-mix(in srgb, var(--primary) 35%, transparent)'
+                      : '0 6px 0 color-mix(in srgb, var(--fg) 8%, transparent), var(--shadow)',
                   transition: 'background 0.2s, color 0.2s',
                 }}
               >
@@ -157,7 +169,9 @@ export default function KeycapDemo() {
       </div>
 
       <p className="foot" style={{ margin: 0, textAlign: 'center' }}>
-        Keys auto-cycle · click any key to hold it · try the real ones on your keyboard
+        {userHeld
+          ? 'Held on your pick · press the real key on your keyboard'
+          : 'Keys auto-cycle · click any key to hold it · try the real ones on your keyboard'}
       </p>
     </div>
   );

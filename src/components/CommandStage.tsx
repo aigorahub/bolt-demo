@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
@@ -10,7 +10,7 @@ const ACTIONS = [
   { id: 'ink', kicker: 'tool', title: 'Start annotating', result: 'Press A — pen, highlighter, shapes, eraser.' },
   { id: 'present', kicker: 'mode', title: 'Open presenter tab', result: 'Press P — timer, notes, next slide, synced.' },
   { id: 'build', kicker: 'nav', title: 'Step through builds', result: '→ reveals; ← rewinds. Builds are first-class navigation.' },
-  { id: 'share', kicker: 'ship', title: 'Copy share link', result: 'URL hash tracks the slide — send /#12, land on 12.' },
+  { id: 'share', kicker: 'ship', title: 'Copy share link', result: 'URL hash tracks the slide — send /#14, land on 14.' },
   { id: 'agent', kicker: 'agent', title: 'Prompt a new deck', result: 'Open the skill. One sentence in → full app out.' },
   { id: 'custom', kicker: 'extend', title: 'Add a custom component', result: 'Floor, not ceiling. Tokens only. Zero new deps.' },
 ];
@@ -62,6 +62,14 @@ export default function CommandStage() {
   };
 
   const active = list[idx] ?? list[0];
+  const listRef = useRef<HTMLDivElement>(null);
+  const activeId = active ? `cmd-opt-${active.id}` : undefined;
+
+  useEffect(() => {
+    if (!activeId || !listRef.current) return;
+    const el = listRef.current.querySelector<HTMLElement>(`#${activeId}`);
+    el?.scrollIntoView({ block: 'nearest' });
+  }, [activeId]);
 
   return (
     <div
@@ -78,7 +86,7 @@ export default function CommandStage() {
           borderRadius: 'var(--radius)',
           border: '1px solid var(--hair)',
           background: 'var(--surface)',
-          boxShadow: 'var(--shadow-lg)',
+          boxShadow: 'var(--shadow)',
           overflow: 'hidden',
         }}
         onKeyDown={(e) => e.stopPropagation()}
@@ -112,7 +120,7 @@ export default function CommandStage() {
               e.stopPropagation();
               if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                setIdx((i) => Math.min(list.length - 1, i + 1));
+                setIdx((i) => Math.min(Math.max(list.length - 1, 0), i + 1));
               } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 setIdx((i) => Math.max(0, i - 1));
@@ -126,6 +134,11 @@ export default function CommandStage() {
             }}
             placeholder="Jump, theme, annotate, present…"
             aria-label="Command palette filter"
+            aria-controls="cmd-listbox"
+            aria-activedescendant={activeId}
+            role="combobox"
+            aria-expanded="true"
+            aria-autocomplete="list"
             style={{
               flex: 1,
               border: 'none',
@@ -141,7 +154,13 @@ export default function CommandStage() {
           </span>
         </div>
 
-        <div style={{ maxHeight: 280, overflow: 'auto', padding: 8 }}>
+        <div
+          ref={listRef}
+          id="cmd-listbox"
+          role="listbox"
+          aria-label="Commands"
+          style={{ maxHeight: 280, overflow: 'auto', padding: 8 }}
+        >
           {list.length === 0 && (
             <div
               style={{
@@ -159,7 +178,10 @@ export default function CommandStage() {
             return (
               <button
                 key={a.id}
+                id={`cmd-opt-${a.id}`}
                 type="button"
+                role="option"
+                aria-selected={on}
                 onMouseEnter={() => setIdx(i)}
                 onClick={(e) => {
                   e.stopPropagation();
