@@ -1,7 +1,7 @@
 # Bolt Slides, level 2 — lessons recorded
 
 Source: an advanced guide ("So you've mastered Bolt Slides…"), recorded here and
-**demonstrated live in this deck's Part five** (slides 37–46, "The next level").
+**demonstrated live in this deck's Part five** (slides 37–52, "The next level").
 Where the guide's advice conflicts with this repo's hard rules (notably its
 zero-new-dependencies policy from `.bolt/skills/slides/SKILL.md`), the lesson is
 recorded as written and the demo uses the repo's dependency-free equivalent.
@@ -47,7 +47,11 @@ charts all derive from the single primitive. Semantic layer lives in
 
 **Demoed:** slide 40 (`MotionLab`) — the same four cards morph between three
 layouts via `layoutId`, enter with a stagger, and a caption exits through
-`AnimatePresence`.
+`AnimatePresence`. Slide 41 (`SpringLab`) makes the parameters tangible:
+tune stiffness/damping, replay, and copy the exact `transition` prop home.
+Slide 43 (`MorphingChart`) is progressive disclosure at its strongest — the
+→ key doesn't reveal hidden text, it re-sorts and re-scales the data already
+on screen.
 
 ## 4. Data visualization
 
@@ -67,9 +71,11 @@ This repo stays dependency-free by rule, so charts are hand-rolled SVG
 - Prefer charts the audience can hover/click during the talk.
 - Animate data changes when builds reveal new information.
 
-**Demoed:** slide 41 (`ParamExplorer`) — a live parameter explorer where sliders
-redraw a token-themed chart in real time; slide 18 shows the token-themed
-chart trio.
+**Demoed:** slide 42 (`ParamExplorer`) — a live parameter explorer where sliders
+redraw a token-themed chart in real time; slide 43 (`MorphingChart`) animates
+data changes through builds; slide 44 (`TokenTreemap`) is the "fully custom"
+rung of the ladder done dependency-free — a treemap of the real 29 components,
+tinted from the one accent; slide 18 shows the token-themed chart trio.
 
 ## 5. 3D and spatial content
 
@@ -78,7 +84,7 @@ exploded diagrams, data globes, network graphs. Restraint rule: **one strong 3D
 moment per deck** beats three mediocre ones.
 
 Dependency-free equivalents used here: the canvas `Globe` (slide 29) and the
-CSS-3D `ExplodedStack` (slide 42) — an exploded diagram of this repo's own
+CSS-3D `ExplodedStack` (slide 45) — an exploded diagram of this repo's own
 architecture, with a hover-linked legend.
 
 ## 6. Interactivity patterns that actually matter
@@ -87,8 +93,13 @@ Before/after sliders · parameter explorers · clickable maps/region selectors �
 tabs/segmented controls · live counters · embedded working prototypes.
 Rule: the interaction must clarify a concept or let the audience test a claim.
 
-**Demoed:** slide 43 is a Bento mapping each pattern to where it already lives
-in this deck (morph handle #6, room pulse #20, explorer #41, palette #35 …).
+**Demoed:** three purpose-built examples — slide 46 (`StoryboardSorter`, an
+embedded prototype: drag beats, the story arc redraws), slide 47
+(`PriorityMatrix`, a drag-and-drop impact × effort whiteboard for running the
+meeting on the slide), and slide 48 (`ContrastAudit`, a slide that is a
+working tool: it measures the live tokens' WCAG contrast and re-audits when
+you re-theme). Slide 49 is a Bento mapping every pattern to where it lives in
+this deck (morph handle #6, room pulse #20, explorer #42, palette #35 …).
 
 ## 7. Agent workflow upgrades
 
@@ -102,7 +113,7 @@ in this deck (morph handle #6, room pulse #20, explorer #41, palette #35 …).
    `App.tsx`, `tokens.css`, and new components."
 5. **Visual QA loop** — walk the deck, give slide-and-build-specific feedback.
 
-**Demoed:** slide 44 shows the whole loop as a prompt playbook in a CodeWindow.
+**Demoed:** slide 50 shows the whole loop as a prompt playbook in a CodeWindow.
 
 ## 8. Architecture for bigger decks
 
@@ -115,7 +126,7 @@ in this deck (morph handle #6, room pulse #20, explorer #41, palette #35 …).
   active — this engine already renders only `slides[slide]` live, so that
   comes free.
 
-**Demoed:** slide 45 (build-by-build rules).
+**Demoed:** slide 51 (build-by-build rules).
 
 ## 9. Presentation-day superpowers
 
@@ -123,7 +134,7 @@ Deep links (`/#12`) for Q&A jumps · presenter notes with talking points and
 timing cues · annotation tools (`A`) for live markup · share the URL so the
 audience follows and interacts on their own devices.
 
-All already native to the engine; slide 43's Bento calls them out.
+All already native to the engine; slide 49's Bento calls them out.
 
 ## 10. The "next level" checklist
 
@@ -136,7 +147,7 @@ Before calling a deck finished:
 - [ ] The best custom components are extracted for reuse
 - [ ] The deck feels calm and intentional at presentation speed
 
-**Demoed:** slide 46 (`ShipChecklist`) — the checklist itself, interactive.
+**Demoed:** slide 52 (`ShipChecklist`) — the checklist itself, interactive.
 
 ---
 

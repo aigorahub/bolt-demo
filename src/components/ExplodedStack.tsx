@@ -7,7 +7,7 @@ import { useDeck } from '../deck/DeckContext';
    A slider pulls the five layers apart; hovering a legend row lights its
    layer. Restraint is the lesson: one strong 3D beat, doing explanatory
    work, not decoration. Because the engine mounts only the active slide,
-   this costs nothing on the other 48. */
+   this costs nothing on the other 54. */
 
 const LAYERS = [
   { name: 'Design tokens', path: 'src/styles/tokens.css', note: 'one :root block' },

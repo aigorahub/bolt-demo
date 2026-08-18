@@ -1,10 +1,12 @@
 # Bolt Slides — the interactive tour
 
 A demo deck that showcases every feature of [bolt-slides](https://github.com/stackblitz/bolt-slides)
-by being made of them: **49 slides** about the deck engine, built in the deck engine. Every slide is a
-live, responsive web page. Slides 37–46 are **"Part five — The next level"**: an advanced playbook
+by being made of them: **55 slides** about the deck engine, built in the deck engine. Every slide is a
+live, responsive web page. Slides 37–52 are **"Part five — The next level"**: an advanced playbook
 (recorded in [LESSONS.md](LESSONS.md)) demonstrated live — semantic token cascades, layout-morph
-motion, parameter explorers, a CSS-3D exploded diagram, and an interactive ship checklist.
+motion, a spring tuner, parameter explorers, builds that animate data, a dependency-free treemap,
+a CSS-3D exploded diagram, a drag-to-reorder storyboard, an impact/effort whiteboard, a live WCAG
+contrast auditor, and an interactive ship checklist.
 
 ```bash
 npm install
@@ -31,9 +33,15 @@ npm run dev        # → http://localhost:5173
 | Slide 36 | Re-theme the running deck: Paper turns everything serif and cream |
 | Slide 39 | Drag one hue slider — every surface, glow, and chart re-derives via `color-mix()` |
 | Slide 40 | The same four cards morph between layouts (`layout`/`layoutId` + stagger + exit) |
-| Slide 41 | Parameter explorer: two sliders recompute a compounding curve live |
-| Slide 42 | CSS-3D exploded diagram of the repo itself; hover the legend, pull the slider |
-| Slide 46 | The "next level" checklist — check all six and it tells you to ship |
+| Slide 41 | Spring lab: tune stiffness/damping, replay, copy the exact `transition` prop |
+| Slide 42 | Parameter explorer: two sliders recompute a compounding curve live |
+| Slide 43 | Press → — the bars re-sort, then re-scale: builds that animate the data itself |
+| Slide 44 | A hand-rolled treemap of all 29 components; hover a shelf to isolate it |
+| Slide 45 | CSS-3D exploded diagram of the repo itself; hover the legend, pull the slider |
+| Slide 46 | Storyboard sorter: drag the beats, the story arc redraws live |
+| Slide 47 | Impact × effort whiteboard: drag chips between quadrants, tallies re-count |
+| Slide 48 | Live WCAG audit of the current tokens — re-theme and it re-audits itself |
+| Slide 52 | The "next level" checklist — check all six and it tells you to ship |
 | `G` / `S` / `A` / `P` / `F` / `H` | Grid · rail · annotations · presenter · fullscreen · hide chrome |
 | Any slide | Speaker notes in presenter mode (`P`); URL hash (`/#16`) deep-links |
 
@@ -44,8 +52,10 @@ npm run dev        # → http://localhost:5173
   `ElectricField`, `PromptMovie`, `MorphReveal`, `KeycapDemo`, `InkAnchors`,
   `LiveApp`, `LivePulse`, `ResponsivePlayground`, `Constellation`, `CommandStage`,
   `ThemeLab`, `RepoStars` — plus the Part-five set: `HueDial`, `MotionLab`,
-  `ParamExplorer`, `ExplodedStack`, `ShipChecklist` — all token-driven,
-  responsive, reduced-motion-safe, no new dependencies.
+  `SpringLab`, `ParamExplorer`, `MorphingChart`, `TokenTreemap`,
+  `ExplodedStack`, `StoryboardSorter`, `PriorityMatrix`, `ContrastAudit`,
+  `ShipChecklist` — all token-driven, responsive, reduced-motion-safe,
+  no new dependencies.
 - **All 29 library components appear live** (marquee roll call; claims
   29 components / 3 deps / 9 theme families / MIT are real).
 - **Theme** is one `:root` block in [`src/styles/tokens.css`](src/styles/tokens.css)
