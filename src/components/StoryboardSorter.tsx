@@ -1,11 +1,13 @@
 import { useId, useState } from 'react';
-import { Reorder } from 'framer-motion';
+import { Reorder, useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
 /* An embedded working prototype — a storyboard sorter. Drag the beats into a
    new order and the story arc redraws live: flat arcs bore rooms, so you
    drag until the energy rises into the ask. framer-motion's Reorder does the
-   drag; the arc is plain SVG reading the tokens. No new dependencies. */
+   drag; the arc is plain SVG reading the tokens. No new dependencies.
+   Known limitation: reordering is pointer-only (framer's Reorder has no
+   keyboard path) — acceptable for a presenter-driven demo, not for product UI. */
 
 type Beat = { id: string; title: string; energy: number };
 
@@ -21,8 +23,13 @@ const START: Beat[] = [
 
 export default function StoryboardSorter() {
   const { isStatic } = useDeck();
+  const reduce = useReducedMotion();
   const gid = useId();
   const [beats, setBeats] = useState<Beat[]>(START);
+  /* the arc transitions are plain CSS, outside MotionConfig's reach —
+     honor prefers-reduced-motion explicitly */
+  const arcT = reduce ? 'none' : 'd 0.35s var(--ease)';
+  const dotT = reduce ? 'none' : 'cx 0.35s var(--ease), cy 0.35s var(--ease)';
 
   const w = 300;
   const h = 130;
@@ -149,7 +156,7 @@ export default function StoryboardSorter() {
             <path
               d={`${line} L${pts[pts.length - 1][0]},${h} L${pts[0][0]},${h} Z`}
               fill={`url(#${gid})`}
-              style={{ transition: 'd 0.35s var(--ease)' }}
+              style={{ transition: arcT }}
             />
             <path
               d={line}
@@ -159,7 +166,7 @@ export default function StoryboardSorter() {
               strokeLinecap="round"
               strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
-              style={{ transition: 'd 0.35s var(--ease)' }}
+              style={{ transition: arcT }}
             />
             {pts.map((p, i) => (
               <circle
@@ -168,7 +175,7 @@ export default function StoryboardSorter() {
                 cy={p[1]}
                 r={4}
                 fill="var(--primary)"
-                style={{ transition: 'cx 0.35s var(--ease), cy 0.35s var(--ease)' }}
+                style={{ transition: dotT }}
               />
             ))}
           </svg>

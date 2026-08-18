@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
 /* "Animate data changes when you reveal new information with builds" — this
@@ -25,6 +25,7 @@ const CAPTIONS = [
 
 export default function MorphingChart() {
   const { clicks, isStatic, registerMax } = useDeck();
+  const reduce = useReducedMotion();
   useEffect(() => {
     registerMax?.(2);
   }, [registerMax]);
@@ -40,7 +41,9 @@ export default function MorphingChart() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {rows.map((d) => {
           const share = (d.count / TOTAL) * 100;
-          const w = beat === 2 ? share / (max / TOTAL) : (d.count / max) * 100;
+          /* beat 0–1: scaled to the tallest bar; beat 2: LITERAL share of
+             all 29, so every bar visibly shrinks on the second click */
+          const w = beat === 2 ? share : (d.count / max) * 100;
           const lead = beat > 0 && d.name === top;
           return (
             <motion.div
@@ -76,7 +79,13 @@ export default function MorphingChart() {
                 <motion.div
                   initial={false}
                   animate={{ width: `${w}%` }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  /* width is not a transform, so reducedMotion="user" won't
+                     catch it — honor reduced motion explicitly */
+                  transition={
+                    reduce
+                      ? { duration: 0 }
+                      : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+                  }
                   style={{
                     height: '100%',
                     borderRadius: 8,

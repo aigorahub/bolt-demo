@@ -9,6 +9,11 @@ import { useDeck } from '../deck/DeckContext';
 
 const DEFAULT_HUE = 265; // oklch hue of the stock #7c9bff-ish indigo
 
+/* the :root overrides outlive this slide (that's the demo), so the slider
+   position must too — otherwise revisiting shows a dial that disagrees
+   with the live theme */
+let lastHue = DEFAULT_HUE;
+
 const HUE_KEYS = [
   '--primary',
   '--accent',
@@ -71,7 +76,11 @@ function applyHue(h: number) {
 
 export default function HueDial() {
   const { isStatic } = useDeck();
-  const [hue, setHue] = useState(DEFAULT_HUE);
+  const [hue, setHueState] = useState(() => lastHue);
+  const setHue = (h: number) => {
+    lastHue = h;
+    setHueState(h);
+  };
   const dirty = hue !== DEFAULT_HUE;
 
   return (

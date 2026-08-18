@@ -45,13 +45,14 @@ export default function ContrastAudit() {
     const resolve = (token: string): [number, number, number] | null => {
       probe.style.color = `var(${token})`;
       const computed = getComputedStyle(probe).color;
+      if (!computed) return null;
       ctx.clearRect(0, 0, 1, 1);
-      ctx.fillStyle = '#000';
-      try {
-        ctx.fillStyle = computed;
-      } catch {
-        return null;
-      }
+      /* canvas silently ignores invalid fillStyle strings (it never throws),
+         so detect rejection with a sentinel the theme will never produce */
+      const sentinel = 'rgb(1, 2, 3)';
+      ctx.fillStyle = sentinel;
+      ctx.fillStyle = computed;
+      if (ctx.fillStyle === '#010203' && computed !== sentinel) return null;
       ctx.fillRect(0, 0, 1, 1);
       const d = ctx.getImageData(0, 0, 1, 1).data;
       return [d[0], d[1], d[2]];

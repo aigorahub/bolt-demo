@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
@@ -28,14 +28,18 @@ export default function MotionLab() {
   const { isStatic } = useDeck();
   const reduce = useReducedMotion();
   const [mode, setMode] = useState<Mode>('grid');
+  // layoutIds must be instance-scoped: the rail/grid mounts a static copy of
+  // this slide, and a duplicate global id would hijack the live projection
+  const uid = useId();
 
   const spring = { type: 'spring' as const, stiffness: 320, damping: 30 };
 
   return (
     <div style={{ maxWidth: 720, marginInline: 'auto', width: '100%' }}>
-      {/* segmented control */}
+      {/* segmented control (plain button group — not ARIA tabs; there is
+          no tabpanel relationship to express) */}
       <div
-        role="tablist"
+        role="group"
         aria-label="Layout mode"
         style={{
           display: 'flex',
@@ -52,8 +56,7 @@ export default function MotionLab() {
         {MODES.map((m) => (
           <button
             key={m.id}
-            role="tab"
-            aria-selected={mode === m.id}
+            aria-pressed={mode === m.id}
             onClick={isStatic ? undefined : () => setMode(m.id)}
             onKeyDown={(e) => e.stopPropagation()}
             style={{
@@ -71,7 +74,7 @@ export default function MotionLab() {
           >
             {mode === m.id && (
               <motion.span
-                layoutId="motionlab-pill"
+                layoutId={`${uid}-pill`}
                 transition={spring}
                 style={{
                   position: 'absolute',
@@ -109,7 +112,7 @@ export default function MotionLab() {
             <motion.div
               key={c.id}
               layout
-              layoutId={`motionlab-${c.id}`}
+              layoutId={`${uid}-${c.id}`}
               transition={spring}
               variants={{
                 hidden: { opacity: 0, y: 18 },

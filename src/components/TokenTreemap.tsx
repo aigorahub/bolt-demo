@@ -59,6 +59,10 @@ export default function TokenTreemap() {
           return (
             <div
               key={shelf.name}
+              role="button"
+              tabIndex={isStatic ? -1 : 0}
+              aria-pressed={active === shelf.name}
+              aria-label={`${shelf.name} shelf — ${shelf.items.length} components`}
               onMouseEnter={isStatic ? undefined : () => setActive(shelf.name)}
               onMouseLeave={isStatic ? undefined : () => setActive(null)}
               onClick={
@@ -66,7 +70,16 @@ export default function TokenTreemap() {
                   ? undefined
                   : () => setActive((a) => (a === shelf.name ? null : shelf.name))
               }
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  if (!isStatic)
+                    setActive((a) => (a === shelf.name ? null : shelf.name));
+                }
+              }}
               style={{
+                outlineOffset: 2,
                 flexGrow: shelf.items.length,
                 flexBasis: 0,
                 minWidth: 0,

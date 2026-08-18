@@ -1,11 +1,13 @@
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import { LayoutGroup, motion } from 'framer-motion';
 import { useDeck } from '../deck/DeckContext';
 
 /* A workshop tool ON a slide: drag backlog items around an impact × effort
    matrix and the quadrant tallies re-count. This is the "run the meeting
    inside the deck" pattern — the slide is the whiteboard, and the state is
-   yours to rearrange mid-talk. framer-motion drag + layoutId, tokens only. */
+   yours to rearrange mid-talk. framer-motion drag + layoutId, tokens only.
+   Known limitation: chips are pointer-only (no keyboard drag path) —
+   acceptable for a presenter-driven demo, not for product UI. */
 
 type Quad = 0 | 1 | 2 | 3; // 0 do-now · 1 plan · 2 nice · 3 skip
 
@@ -27,6 +29,9 @@ const CHIPS: { id: string; label: string; start: Quad }[] = [
 
 export default function PriorityMatrix() {
   const { isStatic } = useDeck();
+  // instance-scoped layoutIds: the rail/grid mounts a static thumbnail copy
+  // of this slide, and duplicate global ids would hijack the live projection
+  const uid = useId();
   const gridRef = useRef<HTMLDivElement>(null);
   const [where, setWhere] = useState<Record<string, Quad>>(() =>
     Object.fromEntries(CHIPS.map((c) => [c.id, c.start]))
@@ -113,7 +118,7 @@ export default function PriorityMatrix() {
                   {chips.map((c) => (
                     <motion.div
                       key={c.id}
-                      layoutId={`pm-${c.id}`}
+                      layoutId={`${uid}-${c.id}`}
                       drag={!isStatic}
                       dragSnapToOrigin
                       dragElastic={0.2}
@@ -131,7 +136,6 @@ export default function PriorityMatrix() {
                         cursor: isStatic ? 'default' : 'grab',
                         userSelect: 'none',
                         touchAction: 'none',
-                        whiteSpace: 'nowrap',
                         position: 'relative',
                       }}
                     >
