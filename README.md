@@ -1,8 +1,10 @@
 # Bolt Slides — the interactive tour
 
 A demo deck that showcases every feature of [bolt-slides](https://github.com/stackblitz/bolt-slides)
-by being made of them: **39 slides** about the deck engine, built in the deck engine. Every slide is a
-live, responsive web page.
+by being made of them: **49 slides** about the deck engine, built in the deck engine. Every slide is a
+live, responsive web page. Slides 37–46 are **"Part five — The next level"**: an advanced playbook
+(recorded in [LESSONS.md](LESSONS.md)) demonstrated live — semantic token cascades, layout-morph
+motion, parameter explorers, a CSS-3D exploded diagram, and an interactive ship checklist.
 
 ```bash
 npm install
@@ -27,6 +29,11 @@ npm run dev        # → http://localhost:5173
 | Slide 30 | Interactive system constellation: hover nodes, graph leans to cursor |
 | Slide 35 | Command palette on a slide (type, arrow, Enter) |
 | Slide 36 | Re-theme the running deck: Paper turns everything serif and cream |
+| Slide 39 | Drag one hue slider — every surface, glow, and chart re-derives via `color-mix()` |
+| Slide 40 | The same four cards morph between layouts (`layout`/`layoutId` + stagger + exit) |
+| Slide 41 | Parameter explorer: two sliders recompute a compounding curve live |
+| Slide 42 | CSS-3D exploded diagram of the repo itself; hover the legend, pull the slider |
+| Slide 46 | The "next level" checklist — check all six and it tells you to ship |
 | `G` / `S` / `A` / `P` / `F` / `H` | Grid · rail · annotations · presenter · fullscreen · hide chrome |
 | Any slide | Speaker notes in presenter mode (`P`); URL hash (`/#16`) deep-links |
 
@@ -36,11 +43,15 @@ npm run dev        # → http://localhost:5173
   [`src/App.tsx`](src/App.tsx) plus custom demos the skill encourages:
   `ElectricField`, `PromptMovie`, `MorphReveal`, `KeycapDemo`, `InkAnchors`,
   `LiveApp`, `LivePulse`, `ResponsivePlayground`, `Constellation`, `CommandStage`,
-  `ThemeLab`, `RepoStars` — token-driven, responsive, reduced-motion-safe,
-  no new dependencies.
+  `ThemeLab`, `RepoStars` — plus the Part-five set: `HueDial`, `MotionLab`,
+  `ParamExplorer`, `ExplodedStack`, `ShipChecklist` — all token-driven,
+  responsive, reduced-motion-safe, no new dependencies.
 - **All 29 library components appear live** (marquee roll call; claims
   29 components / 3 deps / 9 theme families / MIT are real).
 - **Theme** is one `:root` block in [`src/styles/tokens.css`](src/styles/tokens.css)
-  ("electric bolt": Space Grotesk + a sky→violet accent). Theme Lab rewrites it at runtime.
+  ("electric bolt": Space Grotesk + a sky→violet accent), now with a documented
+  **semantic layer** (`--accent-soft`, `--surface-elevated`, …) derived from the
+  primitives via `color-mix()`. Theme Lab rewrites the block at runtime; HueDial
+  proves the cascade by re-deriving everything from one hue.
 
 MIT, same as upstream. Build notes in [PROGRESS.md](PROGRESS.md).
