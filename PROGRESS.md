@@ -46,6 +46,72 @@ User feedback v1: "C grade — too text-heavy. Online demos looked cooler with i
   - KeycapDemo (auto-pressing key row) on slide 10; Signal/Reactor screenshots; deploy somewhere
   - LANDED: PR #1 squash-merged to main 2026-07-18 (commit db12aff)
 
+## v3 — "Part five: The next level" (2026-08-17)
+
+User brought an advanced guide ("So you've mastered Bolt Slides…"); recorded it
+in **LESSONS.md** and demonstrated it live as a new chapter, slides 37–46,
+inserted between ThemeLab (36) and Pricing (now 47). **Deck is now 49 slides.**
+
+- [x] `LESSONS.md` — the 10 guide sections, adapted to this repo's hard rules
+      (guide's Recharts/Nivo/Visx/R3F recs recorded but demoed dependency-free)
+- [x] `tokens.css` — added the guide's "design system comment block" + a
+      SEMANTIC LAYER (`--accent-soft`, `--accent-strong`, `--surface-elevated`,
+      `--text-muted`, `--line-accent`) derived via `color-mix()`. Token *names*
+      only added, never changed; engine untouched.
+- [x] New components (tokens-only, responsive, reduced-motion safe, no deps):
+  - `HueDial.tsx` — slide 39: one hue slider rewrites `--primary`/`--accent`
+    (oklch) at runtime; swatch strip shows the color-mix recipes following
+  - `MotionLab.tsx` — slide 40: layout/layoutId morph + staggerChildren +
+    AnimatePresence exit, one segmented-control toy
+  - `ParamExplorer.tsx` — slide 41: two sliders → live token-themed SVG
+    compounding curve + tabular figure
+  - `ExplodedStack.tsx` — slide 42: CSS-3D exploded diagram of the repo's five
+    layers, hover-linked legend, explode slider
+  - `ShipChecklist.tsx` — slide 46: interactive 6-item checklist, "Ship it."
+    verdict at 6/6
+- [x] Prose slides: 37 Section n=5 · 38 mindset (2 builds) · 43 patterns Bento ·
+      44 two-pass playbook (Split+CodeWindow) · 45 architecture (4 builds)
+- [x] All interactive controls stopPropagation on keys so sliders/buttons don't
+      page the deck (same convention as ThemeLab/CommandStage)
+
+## v3.1 — Part five filled out as a gallery (2026-08-17, same session)
+
+Goal: "fill out the demo with tons of inspiring examples of the advanced
+ideas in action." Six more demos inserted into Part five (now slides 37–52);
+**deck is now 55 slides.**
+
+- [x] `SpringLab.tsx` — slide 41: stiffness/damping sliders + replay runway;
+      prints the exact `transition` prop to copy home
+- [x] `MorphingChart.tsx` — slide 43: registers 2 click-steps via
+      `registerMax` so → re-sorts then re-scales the SAME bars (real shelf
+      counts) — "builds that animate the data"
+- [x] `TokenTreemap.tsx` — slide 44 (Split): dep-free treemap of all 29
+      components, columns = shelf share, per-shelf tints via color-mix off
+      the one accent; hover/click isolates a shelf
+- [x] `StoryboardSorter.tsx` — slide 46: framer-motion `Reorder` list of 6
+      story beats; SVG story-arc line + rising-ending detector redraw live
+- [x] `PriorityMatrix.tsx` — slide 47: drag chips across an impact × effort
+      2×2 (drag + layoutId re-parenting); quadrant tallies re-count
+- [x] `ContrastAudit.tsx` — slide 48: computes WCAG ratios of the CURRENT
+      tokens (canvas-resolved, works for oklch/color-mix); MutationObserver
+      on :root re-audits after ThemeLab/HueDial re-themes
+- [x] Claims re-synced (below); LESSONS.md & README updated
+
+### v3.1 self-reference claims (supersedes v3 table)
+
+| Claim | Where | Value |
+|-------|-------|-------|
+| Total slides | PromptMovie badge, Chat msg, Agenda title, presenter mock ("13 / 55"), README | **55** |
+| Agenda stops | Agenda | **six** |
+| "You're on slide 7" | Chat | unchanged ✓ |
+| Deep-link tiles | Bento "#14" (14) and patterns Bento "#49" (49) | ✓ |
+| "Ten slides from now → re-theme" | Accordion 26 → ThemeLab 36 | unchanged ✓ |
+| "The next fourteen slides" | mindset slide 38 → demos 39–52 | ✓ |
+| Explorer citations | patterns Bento 49 → "Slide 42" + "41 tuned a spring" | ✓ |
+| 3D citation | architecture 51 → "slide 45" | ✓ |
+| Patterns Bento cites | slides 6 · 19 · 20 · 35 · 42 · 47 | ✓ |
+| Part five span | header comment + LESSONS.md | 37–52 |
+
 ## v2 slide order (31) — self-reference claims that MUST stay true
 
 | # | Slide | Claim to keep in sync |

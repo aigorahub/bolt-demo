@@ -12,17 +12,24 @@ import Chat from './components/Chat';
 import CodeWindow from './components/CodeWindow';
 import Comparison from './components/Comparison';
 import Contrast from './components/Contrast';
+import ContrastAudit from './components/ContrastAudit';
 import CountUp from './components/CountUp';
 import Cover from './components/Cover';
 import CommandStage from './components/CommandStage';
 import Constellation from './components/Constellation';
 import ElectricField from './components/ElectricField';
+import ExplodedStack from './components/ExplodedStack';
 import Globe from './components/Globe';
+import HueDial from './components/HueDial';
 import InkAnchors from './components/InkAnchors';
 import KeycapDemo from './components/KeycapDemo';
 import LiveApp from './components/LiveApp';
 import LivePulse from './components/LivePulse';
+import MorphingChart from './components/MorphingChart';
 import MorphReveal from './components/MorphReveal';
+import MotionLab from './components/MotionLab';
+import ParamExplorer from './components/ParamExplorer';
+import PriorityMatrix from './components/PriorityMatrix';
 import PromptMovie from './components/PromptMovie';
 import ResponsivePlayground from './components/ResponsivePlayground';
 import Marquee from './components/Marquee';
@@ -30,10 +37,14 @@ import Pricing from './components/Pricing';
 import Quote from './components/Quote';
 import RepoStars from './components/RepoStars';
 import Section from './components/Section';
+import ShipChecklist from './components/ShipChecklist';
 import Split from './components/Split';
 import SpotlightCard from './components/SpotlightCard';
+import SpringLab from './components/SpringLab';
 import StatGrid from './components/StatGrid';
 import Steps from './components/Steps';
+import StoryboardSorter from './components/StoryboardSorter';
+import TokenTreemap from './components/TokenTreemap';
 import Table from './components/Table';
 import Tabs from './components/Tabs';
 import Team from './components/Team';
@@ -44,17 +55,25 @@ import VisualDashboard from './components/VisualDashboard';
 
 /* ══════════════════════════════════════════════════════════════════════
    BOLT SLIDES — THE INTERACTIVE TOUR
-   A deck about the deck engine, built in the deck engine. 39 slides;
+   A deck about the deck engine, built in the deck engine. 55 slides;
    every library component appears live, every engine feature is used
-   and explained, and a dozen custom demos (ElectricField, PromptMovie,
-   MorphReveal, KeycapDemo, InkAnchors, LiveApp, LivePulse,
+   and explained, and twenty-three custom demos (ElectricField,
+   PromptMovie, MorphReveal, KeycapDemo, InkAnchors, LiveApp, LivePulse,
    ResponsivePlayground, Constellation, CommandStage, ThemeLab,
-   RepoStars) prove the kit is a floor, not a ceiling.
+   RepoStars, HueDial, MotionLab, SpringLab, ParamExplorer,
+   MorphingChart, TokenTreemap, ExplodedStack, StoryboardSorter,
+   PriorityMatrix, ContrastAudit, ShipChecklist) prove the kit is a
+   floor, not a ceiling.
+   Slides 37–52 are "Part five — The next level": the advanced guide
+   recorded in LESSONS.md, demonstrated live.
    Facts: 29 library components, 3 dependencies, 9 theme families, MIT.
    Self-referential numbers that must stay true if slides move:
    Chat says "slide 7"; Bento tile says "#14"; presenter mock says
-   "Slide 13 / 39"; Accordion says "ten slides from now" (→ ThemeLab);
-   PromptMovie badge and Chat say "39 slides".
+   "Slide 13 / 55"; Accordion says "ten slides from now" (→ ThemeLab);
+   PromptMovie badge and Chat say "55 slides"; mindset slide says "the
+   next fourteen slides"; patterns Bento says "#49" and cites slides
+   6 / 19 / 20 / 35 / 42 / 47; architecture slide says "slide 45" (→ 3D)
+   and "slide 14" (→ RepoStars).
    ══════════════════════════════════════════════════════════════════════ */
 
 const panel = (extra = 0.22): React.CSSProperties => ({
@@ -216,13 +235,14 @@ export default function App() {
         nav="Agenda"
         notes="Orient the room in thirty seconds. The hints on the right are the payoff of each stop."
         kicker="The tour"
-        title="Five stops, thirty-nine slides."
+        title="Six stops, fifty-five slides."
         items={[
           { title: 'Why slides should be apps', hint: 'now' },
           { title: 'The engine', hint: 'builds · notes · ink' },
           { title: 'The library', hint: '29 components' },
           { title: 'The flair', hint: '3D · motion' },
           { title: 'Make it yours', hint: 'live re-theme' },
+          { title: 'The next level', hint: 'token cascades · explorers' },
         ]}
       />
 
@@ -287,7 +307,7 @@ export default function App() {
           },
           {
             from: 'ai',
-            text: 'Done — themed the tokens electric indigo, authored 39 slides, wired the click-builds, and left you speaker notes.',
+            text: 'Done — themed the tokens electric indigo, authored 55 slides, wired the click-builds, and left you speaker notes.',
           },
           { from: 'user', text: 'Prove it.' },
           {
@@ -450,7 +470,7 @@ export default function App() {
                     >
                       07:42
                     </span>
-                    <span className="foot">Slide 13 / 39</span>
+                    <span className="foot">Slide 13 / 55</span>
                   </div>
                   <div
                     style={{
@@ -1352,7 +1372,408 @@ export default function App() {
         </Reveal>
       </Slide>
 
-      {/* 37 · Pricing — the MIT joke, played straight */}
+      {/* 37 · Section — Part five: the next level (the LESSONS.md chapter) */}
+      <Section
+        nav="Part five"
+        notes="Bonus chapter for the people who already get it. Everything from here to the checklist is the advanced playbook — recorded in LESSONS.md in this repo — performed live."
+        n={5}
+        kicker="Part five"
+        title={
+          <>
+            The next <span className="accent-text">level.</span>
+          </>
+        }
+      />
+
+      {/* 38 · Mindset — experiences, not slides */}
+      <Slide
+        center
+        nav="Mindset"
+        notes="The mindset shift that unlocks the rest: a deck is a small web app that happens to advance one page at a time. Land each build slowly."
+      >
+        <h2
+          className="headline"
+          style={{ fontSize: 'clamp(34px,5.5vw,64px)', marginInline: 'auto' }}
+        >
+          Stop thinking in <span className="accent-text">slides.</span>
+        </h2>
+        <Build at={1}>
+          <p className="lead" style={{ marginTop: 22, marginInline: 'auto' }}>
+            Start thinking in experiences — every slide can fetch data, hold
+            state, and answer the room.
+          </p>
+        </Build>
+        <Build at={2}>
+          <p className="subhead" style={{ marginTop: 22, marginInline: 'auto' }}>
+            A deck is a lightweight web app that happens to advance one page
+            at a time. The next fourteen slides put that to work.
+          </p>
+        </Build>
+      </Slide>
+
+      {/* 39 · HueDial — theming level 2: semantic tokens + color-mix */}
+      <Slide
+        nav="Token cascade"
+        notes="Theming, level 2. Drag the hue — surfaces, glows, gradients, and charts all re-derive because tokens.css keeps a semantic layer built with color-mix() on top of one primitive. Nothing downstream is hand-picked."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Theming, level 2
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            One primitive. <span className="accent-text">Everything follows.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <HueDial />
+        </Reveal>
+      </Slide>
+
+      {/* 40 · MotionLab — layout / layoutId / stagger / AnimatePresence */}
+      <Slide
+        nav="Motion lab"
+        notes="Motion, level 2. Flip the segmented control: the SAME four cards morph between layouts — that's layout and layoutId, not re-renders. They entered as a staggered group, and the focus caption exits through AnimatePresence. Reduced motion turns it all off."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Motion, level 2
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Layout <span className="accent-text">is</span> the animation.
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <MotionLab />
+        </Reveal>
+      </Slide>
+
+      {/* 41 · SpringLab — tune the motion until it feels like the brand */}
+      <Slide
+        nav="Spring lab"
+        notes="Motion tuning, hands on. Crank stiffness to 600 and replay — anxious. Drop damping to 5 — bouncy castle. The transition prop below is real; they can copy the line into their own deck."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Feel the parameters
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Tune the spring. <span className="accent-text">Keep the line.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <SpringLab />
+        </Reveal>
+      </Slide>
+
+      {/* 42 · ParamExplorer — a claim the audience can poke */}
+      <Slide
+        nav="Poke the math"
+        notes="The interactivity pattern that lands hardest: a parameter explorer. Hand someone the sliders — the chart and the figure recompute live, themed from the tokens. A claim the room can test beats a claim the room must trust."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Interactive claims
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Let the room <span className="accent-text">poke the math.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <ParamExplorer />
+        </Reveal>
+      </Slide>
+
+      {/* 43 · MorphingChart — the → key animates the data itself */}
+      <Slide
+        nav="Data builds"
+        notes="Press → twice, slowly. Nothing new appears — the SAME bars re-sort, then re-scale to share. Builds don't have to reveal hidden text; the strongest ones change what's already on screen."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Builds, level 2
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(20px,3vh,32px)' }}
+          >
+            The → key animates <span className="accent-text">the data.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <MorphingChart />
+        </Reveal>
+      </Slide>
+
+      {/* 44 · TokenTreemap — the chart the built-ins don't have */}
+      <Split
+        nav="Treemap"
+        notes="The built-in kit stops at bar, line, donut. When the story needs a treemap, you write a treemap — this one is ~100 lines, sized by the real shelf counts, tinted from the one accent. Hover a column."
+        kicker="Beyond the kit"
+        title={
+          <>
+            No treemap component? <span className="accent-text">There is now.</span>
+          </>
+        }
+        body="The guide's chart ladder ends at 'fully custom.' Dependency-free custom looks like this: all 29 components, one tile each, columns sized by shelf share, colors mixed from the single accent token. Hover a shelf to isolate it."
+        media={
+          <>
+            <div style={panel(0.14)} />
+            <div
+              style={{
+                position: 'relative',
+                padding: 'clamp(14px,3vw,32px)',
+                width: '100%',
+              }}
+            >
+              <TokenTreemap />
+            </div>
+          </>
+        }
+      />
+
+      {/* 45 · ExplodedStack — the one 3D moment of Part five */}
+      <Slide
+        nav="Exploded view"
+        notes="One strong 3D moment beats three mediocre ones. This exploded diagram is the repo itself — pull the slider, hover the legend. CSS 3D, no dependencies, and the engine mounts it only while this slide is live."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            One 3D moment
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            The stack, <span className="accent-text">exploded.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <ExplodedStack />
+        </Reveal>
+      </Slide>
+
+      {/* 46 · StoryboardSorter — an embedded working prototype */}
+      <Slide
+        nav="Story arc"
+        notes="An embedded prototype: a storyboard sorter. Drag 'Pricing' off the ending and put 'The ask' last — the arc line redraws as you drag. Flat arcs bore rooms; make it rise into the ask."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Embedded prototype
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Drag the story until it <span className="accent-text">rises.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <StoryboardSorter />
+        </Reveal>
+      </Slide>
+
+      {/* 47 · PriorityMatrix — run the meeting inside the deck */}
+      <Slide
+        nav="Matrix"
+        notes="The slide is the whiteboard. Ask the room where 'More bullets' really belongs, then drag it to Skip while they watch the tallies re-count. Decisions made ON the deck stick better than decisions made after it."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Workshop mode
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            Run the meeting <span className="accent-text">on the slide.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <PriorityMatrix />
+        </Reveal>
+      </Slide>
+
+      {/* 48 · ContrastAudit — a slide that is a working tool */}
+      <Slide
+        nav="Live audit"
+        notes="Nothing here is hard-coded — the ratios are computed from whatever the tokens resolve to right now. Go back to the Theme Lab, pick Paper, return: it re-audits itself. Slides that measure beat slides that assert."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Slides as tools
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            This slide <span className="accent-text">audits the theme.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <ContrastAudit />
+        </Reveal>
+      </Slide>
+
+      {/* 49 · Bento — the interactivity patterns that actually matter */}
+      <Bento
+        nav="The patterns"
+        notes="The patterns that consistently land — each tile points at a slide where this deck already does it. Rule of admission: the interaction must clarify a concept or let the audience test a claim. Everything else is a toy."
+        kicker="Patterns that land"
+        title="Interactions that earn their place."
+        tiles={[
+          {
+            k: 'Before / after',
+            title: 'Drag the edge',
+            body: 'Slide 6 morphs dead slideware into this deck.',
+            c: 4,
+            variant: 'glow',
+          },
+          {
+            k: 'Audience input',
+            title: 'The room as data',
+            body: 'Slide 20 counts hands and re-tallies live.',
+            c: 4,
+          },
+          {
+            k: 'Parameter explorer',
+            title: 'Poke the claim',
+            body: 'Slide 42 handed the room the sliders; 41 tuned a spring.',
+            c: 4,
+          },
+          {
+            k: 'Deep links',
+            fig: <span style={{ fontFamily: 'var(--font-mono)' }}>#49</span>,
+            body: 'Q&A jumps straight to any slide.',
+            c: 3,
+          },
+          {
+            k: 'Working UI',
+            title: 'Embed the product',
+            body: 'A palette on 35, a dashboard on 19, a whiteboard on 47 — real, not screenshots.',
+            c: 5,
+            variant: 'accent',
+          },
+          {
+            k: 'Follow along',
+            title: 'Share the URL',
+            body: 'The audience explores the toys on their own phones.',
+            c: 4,
+          },
+        ]}
+      />
+
+      {/* 50 · Split + CodeWindow — driving the agent, level 2 */}
+      <Split
+        nav="Two passes"
+        notes="How to drive the agent once you know the base skill: scope first, generate in two passes, extract what works, repeat the constraints, then walk the deck with slide-specific notes. The playbook is in LESSONS.md."
+        kicker="Driving the agent"
+        title={
+          <>
+            Two passes beat <span className="accent-text">one prompt.</span>
+          </>
+        }
+        body="Scope before generating — topic, length, density, motion. Structure lands in pass one; pass two is polish only. Extract what works into src/components and keep repeating the constraints."
+        media={
+          <>
+            <div style={panel(0.16)} />
+            <div
+              style={{
+                position: 'relative',
+                padding: 'clamp(14px,3vw,36px)',
+                width: '100%',
+              }}
+            >
+              <CodeWindow
+                title="playbook.md"
+                highlight={[5, 6]}
+                code={`0 · Scope — force four answers first:
+    topic + aesthetic · length · text
+    density · motion level
+
+1 · "Author the deck. Don't touch
+    src/deck/. Edit only App.tsx,
+    tokens.css, new components."
+
+2 · "Now add interactivity and
+    visual polish ONLY."
+
+3 · Walk every slide, be specific:
+    "slide 7, build 2 — too abrupt."`}
+              />
+            </div>
+          </>
+        }
+      />
+
+      {/* 51 · Architecture — how big decks stay calm inside */}
+      <Slide
+        center
+        nav="Architecture"
+        notes="Architecture for bigger decks, one rule per build. The last one is free here: this engine mounts only the active slide, so the 3D on slide 45 costs nothing on the other fifty-four."
+      >
+        <h2 className="headline" style={{ marginInline: 'auto' }}>
+          Big decks stay <span className="accent-text">boring inside.</span>
+        </h2>
+        <Build at={1}>
+          <p className="lead" style={{ marginTop: 22, marginInline: 'auto' }}>
+            Slide state stays local — lift it only when two slides truly share
+            it.
+          </p>
+        </Build>
+        <Build at={2}>
+          <p className="lead" style={{ marginTop: 10, marginInline: 'auto' }}>
+            The moment a pattern works twice, extract it into src/components.
+          </p>
+        </Build>
+        <Build at={3}>
+          <p className="lead" style={{ marginTop: 10, marginInline: 'auto' }}>
+            Live data gets loading and error states — slide 14 fetched its star
+            count politely.
+          </p>
+        </Build>
+        <Build at={4}>
+          <p className="subhead" style={{ marginTop: 22, marginInline: 'auto' }}>
+            And heavy content rides free: the engine mounts only the live
+            slide, so the 3D on slide 45 costs nothing here.
+          </p>
+        </Build>
+      </Slide>
+
+      {/* 52 · ShipChecklist — the next-level checklist, interactive */}
+      <Slide
+        nav="Checklist"
+        notes="Before any deck ships, ask these six. A checklist about interactivity should obviously be interactive — check them off; the verdict lands at six of six."
+      >
+        <Reveal>
+          <div className="kicker" style={{ marginBottom: 12, textAlign: 'center' }}>
+            Before you call it done
+          </div>
+          <h2
+            className="headline"
+            style={{ ...centerHead, marginBottom: 'clamp(18px,3vh,28px)' }}
+          >
+            The next-level <span className="accent-text">checklist.</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <ShipChecklist />
+        </Reveal>
+      </Slide>
+
+      {/* 53 · Pricing — the MIT joke, played straight */}
       <Pricing
         nav="Pricing"
         notes="Play it deadpan. The only dishonest thing on this slide is the badge — every tier is the same repo."
@@ -1397,7 +1818,7 @@ export default function App() {
         ]}
       />
 
-      {/* 38 · Quote */}
+      {/* 54 · Quote */}
       <Quote
         nav="Quote"
         notes="Read it slowly. It is the project’s whole thesis in three words."
@@ -1406,7 +1827,7 @@ export default function App() {
         role="github.com/stackblitz/bolt-slides"
       />
 
-      {/* 39 · Close — the Cover component, promoted to CTA */}
+      {/* 55 · Close — the Cover component, promoted to CTA */}
       <Cover
         nav="Close"
         notes="Make the ask and stop talking. Leave the URL on screen through questions — and let someone in the room press G to see everywhere you've been."

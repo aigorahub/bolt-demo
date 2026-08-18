@@ -276,7 +276,7 @@ export default function PromptMovie() {
                 animate={{ opacity: 1, y: 0 }}
                 style={{ color: 'var(--primary)', fontWeight: 600 }}
               >
-                ✓ Deck ready — 39 slides. You’re inside it: press → for the real thing.
+                ✓ Deck ready — 55 slides. You’re inside it: press → for the real thing.
               </motion.span>
             )}
           </div>

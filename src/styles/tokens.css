@@ -5,6 +5,18 @@
    "electric bolt" — deep space indigo with a sky→violet lightning accent,
    drawn from the ⚡ Bolt brand. (The ThemeLab slide rewrites these values
    live at runtime — that's the demo.)
+
+   DESIGN SYSTEM — electric bolt
+   · Mood        deep-space product dark; calm surfaces, one loud accent
+   · Primitives  --bg #05060c · --fg #f2f5ff · --primary #7c9bff
+   · Accent      one gradient, sky→violet, ~80° of hue; used sparingly
+   · Type        Space Grotesk display / Inter body / JetBrains Mono data —
+                 sizes come ONLY from the atoms (.display .headline .lead
+                 .subhead .kicker .foot .figure); never invent a font size
+   · Semantics   the tokens below the SEMANTIC LAYER line are DERIVED from
+                 the primitives with color-mix() — change --primary (or drag
+                 the HueDial slide) and every surface, glow, and chart
+                 follows; never hand-pick a semantic value
    =================================================================== */
 :root {
   /* Surfaces */
@@ -62,4 +74,12 @@
   /* Responsive gutter — fluid side / vertical padding */
   --gutter: clamp(28px, 6vw, 120px);
   --gutter-y: clamp(40px, 8vh, 96px);
+
+  /* ── SEMANTIC LAYER — derived from the primitives above with color-mix();
+     re-theme --primary / --fg and these follow automatically. ── */
+  --accent-soft: color-mix(in srgb, var(--primary) 16%, transparent);
+  --accent-strong: color-mix(in srgb, var(--primary) 72%, var(--fg));
+  --surface-elevated: color-mix(in srgb, var(--fg) 9%, transparent);
+  --text-muted: var(--fg-muted);
+  --line-accent: color-mix(in srgb, var(--primary) 45%, transparent);
 }
